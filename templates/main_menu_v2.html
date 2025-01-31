@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #555;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .suggestions-box {
+            border: 1px solid #ccc;
+            background: white;
+            position: absolute;
+            width: 200px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .suggestion-item {
+            padding: 8px;
+            cursor: pointer;
+        }
+        
+        .suggestion-item:hover {
+            background: #f0f0f0;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Menú Principal</h1>
+        <form method="POST" action="/select_client">
+            <div id="suggestions" class="suggestions-box"></div>
+            <input type="text" id="client_name" name="client_name" placeholder="Nombre del cliente" required>
+            <script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
+            <button type="submit">Seleccionar Cliente</button>
+        </form>
+
+        {% if client_name %}
+            <p>Cliente seleccionado: <strong>{{ client_name }}</strong></p>
+            <form method="POST" action="/main">
+                <button type="submit" name="action" value="constancia">Constancias de Situación Fiscal</button>
+                <button type="submit" name="action" value="opinion">Opinión del Cumplimiento</button>
+            </form>
+        {% else %}
+            <p>No hay cliente seleccionado. Por favor, ingresa un nombre para continuar.</p>
+            <button class="disabled" disabled>Constancias de Situación Fiscal</button>
+            <button class="disabled" disabled>Opinión del Cumplimiento</button>
+        {% endif %}
+    </div>
+</body>
+</html>
